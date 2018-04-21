@@ -34,6 +34,13 @@ int main(int argc, char const *argv[])
     // adjacency matrix
     bool adj[9][9][9][9];
     int index = 0;
+
+    for(int i = 0; i < 9; i++)
+        for(int j = 0; j < 9; j++)
+            for(int k = 0; k < 9; k++)
+                for(int l = 0; l < 9; l++)
+                    adj[i][j][k][l] = false;
+
     for(int i = 0; i < 9; i++)
         for(int j = 0; j < 9; j++)
             for(int k = 0; k < 9; k++)
@@ -44,21 +51,13 @@ int main(int argc, char const *argv[])
                         adj[i][j][k][l] = true;
                         adj[k][l][i][j] = true;
                     }
-                    else 
-                    {
-                        adj[i][j][k][l] = false;
-                        adj[k][l][i][j] = false;
-                    }
+                    
                     if(i != k && j == l)
                     {
                         adj[i][j][k][l] = true;
                         adj[k][l][i][j] = true;
                     }
-                    else 
-                    {
-                        adj[i][j][k][l] = false;
-                        adj[k][l][i][j] = false;
-                    } 
+                    
                     for(int row = 0; row < 3; row++)
                     {
                         for(int col = 0; col < 3; col++)
@@ -67,11 +66,6 @@ int main(int argc, char const *argv[])
                             {
                                 adj[i][j][row + i - i%3][col + j - j%3] = true;
                                 adj[row + i - i%3][col + j - j%3][i][j] = true;
-                            }
-                            else
-                            {
-                                adj[i][j][row + i - i%3][col + j - j%3] = false;
-                                adj[row + i - i%3][col + j - j%3][i][j] = false;
                             }
                         }
                     }                  
