@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-bool Check_unassigned(int arr[9][9], int &row, int &col)
+//**0 in the sud matrix represents the entries that have not been alloted**
+//finds the position in sud matrix which has not been assigned
+bool position_not_assigned(int arr[9][9], int &row, int &col)
 {
 	for(row = 0; row < 9; row++)
 	{
@@ -13,8 +14,8 @@ bool Check_unassigned(int arr[9][9], int &row, int &col)
 	}
 }
 
-
-bool usedinrow(int arr[9][9], int row, int num)
+//checks for match in the row
+bool checkrow(int arr[9][9], int row, int num)
 {
 	for(int col = 0; col < 9; col++)
 	{
@@ -26,7 +27,8 @@ bool usedinrow(int arr[9][9], int row, int num)
 	return false;
 }
 
-bool usedincol(int arr[9][9], int col, int num)
+//checks for match in the column
+bool checkcol(int arr[9][9], int col, int num)
 {
 	for(int row = 0; row < 9; row++)
 	{
@@ -38,49 +40,53 @@ bool usedincol(int arr[9][9], int col, int num)
 	return false;
 }
 
-bool usedinblock(int arr[9][9], int blockrow , int blockcol , int num)
+//checks for match in 3X3 block
+bool checkblock(int matrix[9][9], int blockrow , int blockcol , int num)
 {
 	for(int row = 0; row < 3; row++)
 	{
 		for(int col = 0; col < 3; col++)
 		{
-			if(arr[row + blockrow][col + blockcol] == num)
+			if(matrix[row + blockrow][col + blockcol] == num)
 				return true;
 		}
 	}
 	return false;
 }
 
-bool isSafe(int arr[9][9], int row , int col, int num)
+//checks for match for the element to be input in row, column and block by calling checkrow(),checkcol() and checkblock() resp.
+bool check_row_col_block(int matrix[9][9], int row , int col, int num)
 {
-	return (!usedinrow(arr, row, num) && !usedincol(arr, col, num) && !usedinblock(arr, row - row%3, col-col%3, num));
+	return (!checkrow(matrix, row, num) && !checkcol(matrix, col, num) && !checkblock(matrix, row - row%3, col-col%3, num));
 }
 
-void printgrid(int arr[9][9])
+//display the input matrix
+void display(int matrix[9][9])
 {
 	for(int row = 0; row < 9; row++)
 	{
 		for(int col = 0; col < 9; col++)
 		{
-			cout << arr[row][col] << " ";
+			cout << matrix[row][col] << " ";
 		}
         cout << endl;
 	}
 }
 
-bool SolveSudoku(int arr[9][9])
+//Assigns the number (from 0 to 9) to an element of matrix if that is not present in that row, column and 3X3 block
+bool solve(int matrix[9][9])
 {
 	int row , col;
-	if(!Check_unassigned(arr, row, col))
+	if(!position_not_assigned(matrix, row, col))
 		return true;
 	for(int num = 1; num <= 9; num++)
 	{
-		if(isSafe(arr, row, col, num))
+		if(check_row_col_block(matrix, row, col, num))
 		{
-			arr[row][col] = num;
-			if(SolveSudoku(arr))
+			matrix[row][col] = num;
+			if(solve(matrix))
 				return true;
-			arr[row][col] = 0; //UNASSIGN
+			matrix[row][col] = 0; 
 		}
 	}
 	return false;
@@ -88,7 +94,7 @@ bool SolveSudoku(int arr[9][9])
 
 int main()
 {
-	int grid[9][9] = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
+	int sud[9][9] = {{3, 0, 6, 5, 0, 8, 4, 0, 0},
                       {5, 2, 0, 0, 0, 0, 0, 0, 0},
                       {0, 8, 7, 0, 0, 0, 0, 3, 1},
                       {0, 0, 3, 0, 1, 0, 0, 8, 0},
@@ -97,11 +103,15 @@ int main()
                       {1, 3, 0, 0, 0, 0, 2, 5, 0},
                       {0, 0, 0, 0, 0, 0, 0, 7, 4},
                       {0, 0, 5, 2, 0, 6, 3, 0, 0}};
-
-	if(SolveSudoku(grid) == true)
-		printgrid(grid);
+	cout << "Unsolved Sudoku::"<<endl;
+	display(sud);
+	cout<< endl;
+	if(solve(sud) == true){
+		cout << "Solved Sudoku::" <<endl;
+		display(sud);
+	}
 	else
-		cout << "No Solution Exists" << endl;
+		cout << "No Solution" << endl;
 
 	return 0;
 
