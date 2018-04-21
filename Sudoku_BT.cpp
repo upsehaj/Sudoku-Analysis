@@ -103,11 +103,14 @@ int main()
                       {1, 3, 0, 0, 0, 0, 2, 5, 0},
                       {0, 0, 0, 0, 0, 0, 0, 7, 4},
                       {0, 0, 5, 2, 0, 6, 3, 0, 0}};
-	cout << "Unsolved Sudoku::"<<endl;
+	
+	cout << "Unsolved Sudoku::" << endl;
 	display(sud);
 	cout<< endl;
-	if(solve(sud) == true){
-		cout << "Solved Sudoku::" <<endl;
+	
+	if(solve(sud) == true)
+	{
+		cout << "Solved Sudoku::" << endl;
 		display(sud);
 	}
 	else

@@ -58,7 +58,23 @@ int main(int argc, char const *argv[])
                     {
                         adj[i][j][k][l] = false;
                         adj[k][l][i][j] = false;
-                    }                    
+                    } 
+                    for(int row = 0; row < 3; row++)
+                    {
+                        for(int col = 0; col < 3; col++)
+                        {
+                            if(i != row + i - i%3 && j != col + j - j%3)
+                            {
+                                adj[i][j][row + i - i%3][col + j - j%3] = true;
+                                adj[row + i - i%3][col + j - j%3][i][j] = true;
+                            }
+                            else
+                            {
+                                adj[i][j][row + i - i%3][col + j - j%3] = false;
+                                adj[row + i - i%3][col + j - j%3][i][j] = false;
+                            }
+                        }
+                    }                  
                 } 
     
     return 0;
