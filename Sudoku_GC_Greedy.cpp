@@ -70,6 +70,18 @@ int main(int argc, char const *argv[])
                         }
                     }                  
                 } 
-    
+
+    int deg[9][9];
+    for(int i = 0; i < 9; i++)
+        for(int j = 0; j < 9; j++)
+            deg[i][j] = 0;
+                
+    for(int i = 0; i < 9; i++)
+        for(int j = 0; j < 9; j++)
+            for(int k = 0; k < 9; k++)
+                for(int l = 0; l < 9; l++)
+                    if(adj[i][j][k][l])
+                        deg[i][j]++;
+
     return 0;
 }
