@@ -15,7 +15,8 @@ int root(int Arr[ ],int i)
 {
     while(Arr[ i ] != i)           //chase parent of current element until it reaches root.
     {
-     i = Arr[ i ];
+     Arr[i] = Arr[Arr[i]];
+     i = Arr[i];
     }
     return i;
 }
@@ -28,6 +29,7 @@ int union(int Arr[ ] ,int A ,int B)
     int root_B = root(Arr, B);  
     Arr[ root_A ] = root_B ;       //setting parent of root(A) as root(B).
 }
+
 bool find(int A,int B)
 {
     if( root(A)==root(B) )       //if A and B have same root,means they are connected.
@@ -35,4 +37,6 @@ bool find(int A,int B)
     else
     return false;
 }
+
+
 
