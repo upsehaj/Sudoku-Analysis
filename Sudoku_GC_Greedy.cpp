@@ -5,7 +5,6 @@ struct vertex
 {
     int x;
     int y;
-    bool done;
 };
 
 void display(int matrix[9][9])
@@ -33,7 +32,7 @@ int main(int argc, char const *argv[])
                    {0, 0, 0, 0, 0, 0, 0, 7, 4},
                    {0, 0, 5, 2, 0, 6, 3, 0, 0}};
 
-    cout << "Unsolved Sudoku::" << endl;
+    cout << "Unsolved Sudoku:" << endl;
     display(s);
     cout << endl;
 
@@ -57,7 +56,7 @@ int main(int argc, char const *argv[])
                         adj[k][l][i][j] = true;
                     }
                     
-                    if(i != k && j == l)
+                    if(j == l && i != k)
                     {
                         adj[i][j][k][l] = true;
                         adj[k][l][i][j] = true;
@@ -67,7 +66,7 @@ int main(int argc, char const *argv[])
                     {
                         for(int col = 0; col < 3; col++)
                         {
-                            if(i != row + i - i%3 && j != col + j - j%3)
+                            if(i != row + i - i%3 || j != col + j - j%3)
                             {
                                 adj[i][j][row + i - i%3][col + j - j%3] = true;
                                 adj[row + i - i%3][col + j - j%3][i][j] = true;
@@ -84,7 +83,6 @@ int main(int argc, char const *argv[])
         {
             v[index].x = i;
             v[index].y = j;
-            v[index].done = false;
             index++;
         }
     
@@ -94,14 +92,14 @@ int main(int argc, char const *argv[])
         {
             int x = v[i].x;
             int y = v[i].y;
+            int flag = false;
             if(s[x][y] == 0)
             {
-                int flag = false;
                 for(int j = 0; j < 81; j++)
                 {
                     int p = v[j].x;
                     int q = v[j].y;
-                    if(adj[x][y][p][q] && !v[j].done && s[p][q] != 0)
+                    if(adj[x][y][p][q] && s[p][q] == color)
                     {
                         flag = true;
                         break;
@@ -111,16 +109,19 @@ int main(int argc, char const *argv[])
                     s[x][y] = color;
             }
         }
-
-        for(int i = 0; i < 81; i++)
-        {
-            if(s[v[i].x][v[i].y] != 0)
-                v[i].done = true;
-        }
     }
 	
-	cout << "Solved Sudoku::" << endl;		
+	cout << "Solved Sudoku:" << endl;		
     display(s);
+
+    // for(int i = 0; i < 9; i++)
+    //     for(int j = 0; j < 9; j++)
+    //     {
+    //         for(int k = 0; k < 9; k++)
+    //             for(int l = 0; l < 9; l++)
+    //                 cout << adj[i][j][k][l];
+    //         cout << endl;
+    //     }    
 	    
     return 0;
 }
