@@ -112,16 +112,7 @@ int main(int argc, char const *argv[])
     }
 	
 	cout << "Solved Sudoku:" << endl;		
-    display(s);
-
-    // for(int i = 0; i < 9; i++)
-    //     for(int j = 0; j < 9; j++)
-    //     {
-    //         for(int k = 0; k < 9; k++)
-    //             for(int l = 0; l < 9; l++)
-    //                 cout << adj[i][j][k][l];
-    //         cout << endl;
-    //     }    
+    display(s);  
 	    
     return 0;
 }
