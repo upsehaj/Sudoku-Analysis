@@ -33,6 +33,10 @@ int main(int argc, char const *argv[])
                    {0, 0, 0, 0, 0, 0, 0, 7, 4},
                    {0, 0, 5, 2, 0, 6, 3, 0, 0}};
 
+    cout << "Unsolved Sudoku::" << endl;
+    display(s);
+    cout << endl;
+
     // adjacency matrix
     bool adj[9][9][9][9];
 
@@ -97,25 +101,23 @@ int main(int argc, char const *argv[])
                 {
                     int p = v[j].x;
                     int q = v[j].y;
-                    if(x == p && y == q || adj[x][y][p][q] && !v[j].done && s[p][q] != 0)
+                    if(adj[x][y][p][q] && !v[j].done && s[p][q] != 0)
                     {
                         flag = true;
                         break;
                     }
                 }  
                 if(!flag)
-                {
                     s[x][y] = color;
-                    v[i].done = true;
-                }
-                
             }
         }
+
+        for(int i = 0; i < 81; i++)
+        {
+            if(s[v[i].x][v[i].y] != 0)
+                v[i].done = true;
+        }
     }
-    
-    cout << "Unsolved Sudoku::" << endl;
-	display(s);
-	cout << endl;
 	
 	cout << "Solved Sudoku::" << endl;		
     display(s);
