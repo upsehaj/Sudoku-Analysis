@@ -5,10 +5,20 @@ struct vertex
 {
     int x;
     int y;
-    int deg;
+    bool done;
 };
 
-bool comp_degree(struct vertex a, struct vertex b) { return a.deg > b.deg; }
+void display(int matrix[9][9])
+{
+	for(int row = 0; row < 9; row++)
+	{
+		for(int col = 0; col < 9; col++)
+		{
+			cout << matrix[row][col] << " ";
+		}
+        cout << endl;
+	}
+}
 
 int main(int argc, char const *argv[])
 {
@@ -60,39 +70,55 @@ int main(int argc, char const *argv[])
                             }
                         }
                     }                  
-                } 
+                }
 
-    int deg[9][9];
-    for(int i = 0; i < 9; i++)
-        for(int j = 0; j < 9; j++)
-            deg[i][j] = 0;
-
+    // list of sudoku boxes
     struct vertex v[81];
     int index = 0;
     for(int i = 0; i < 9; i++)
-    {
         for(int j = 0; j < 9; j++)
         {
-            for(int k = 0; k < 9; k++)
-            {
-                for(int l = 0; l < 9; l++)
-                {
-                    if(adj[i][j][k][l])
-                        deg[i][j]++;
-                }
-            }
             v[index].x = i;
             v[index].y = j;
-            v[index].deg = deg[i][j];
+            v[index].done = false;
             index++;
         }
-    }   
-
-    sort(v, v+81, comp_degree);
-    for(int i = 0; i < 81; i++)
+    
+    for(int color = 1; color <= 9; color++)
     {
-        cout << v[i].deg << " ";
+        for(int i = 0; i < 81; i++)
+        {
+            int x = v[i].x;
+            int y = v[i].y;
+            if(s[x][y] == 0)
+            {
+                int flag = false;
+                for(int j = 0; j < 81; j++)
+                {
+                    int p = v[j].x;
+                    int q = v[j].y;
+                    if(x == p && y == q || adj[x][y][p][q] && !v[j].done && s[p][q] != 0)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }  
+                if(!flag)
+                {
+                    s[x][y] = color;
+                    v[i].done = true;
+                }
+                
+            }
+        }
     }
     
+    cout << "Unsolved Sudoku::" << endl;
+	display(s);
+	cout << endl;
+	
+	cout << "Solved Sudoku::" << endl;		
+    display(s);
+	    
     return 0;
 }

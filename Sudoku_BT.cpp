@@ -106,7 +106,7 @@ int main()
 	
 	cout << "Unsolved Sudoku::" << endl;
 	display(sud);
-	cout<< endl;
+	cout << endl;
 	
 	if(solve(sud) == true)
 	{
